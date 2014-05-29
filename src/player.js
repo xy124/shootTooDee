@@ -5,12 +5,17 @@ var animationLeft = [117,118,119,120,121,122,123,124,125],
     animationTop  = [104,105,106,107,108,109,110,111,112],
     animationRight= [143,144,145,146,147,148,149,150,151],
     animationStand= [130],//,2,3,4,5,6],
-    animationShoot= [26,27,28,29,30,31,32,33,34];
+    animationShoot= [26,27,28,29,30,31,32],
+    animationExplosion = [ ];
+
+for (var i = 0; i < 23; i++)
+	animationExplosion[i] = i;
+
 
 
 Player = Class.create(Sprite, {
 	
-	initialize: function() {
+	initialize: function( pno , addTo) {
 		var that = this;
 		that.width = 64;
 		that.height= 64;
@@ -21,8 +26,19 @@ Player = Class.create(Sprite, {
        			dx = 0, dy = 0;
 
 		that.hit = function (which) {
-			console.log("you hit me!");
+			hitPoints --;
+				
+			if (hitPoints <= 0) {
+				that.image = game.assets["assets/explosion.png"];
+				that.frames = animationExplosion;
+				debugOut("Spieler " + pno + " hat verloren HAHA!");
+			}
+
+			hp.width = hitPoints / MAXHP * 64;
 		};
+		
+		var MAXHP = 1000,
+       		    hitPoints  = MAXHP;
 
 		function doHitTests(x, y) {
 			var tx, ty;
@@ -42,6 +58,11 @@ Player = Class.create(Sprite, {
 
 		}
 
+
+		var hp = new Sprite (64, 8);
+		hp.image = game.assets["assets/hp"+pno+".png"];
+
+
 		function moveIfNoHit() {
 			var x = Math.round(that.x + dx * moveSpeedX),
        				y = Math.round(that.y + dy * moveSpeedY);
@@ -60,25 +81,19 @@ Player = Class.create(Sprite, {
 			}
 
 		}
-
-
-
-		game.keybind(65, 'left');	
-		game.keybind(68, 'right');
-		game.keybind(87, 'up');
-		game.keybind(83, 'down');
-		game.keybind(32, 'shoot');		
+		
+			
 		var frameIndex = 0, oldFrames, frames;
 
 		this.addEventListener(Event.ENTER_FRAME, function(e) {
 			// try to move...
-			if (game.input.left)
+			if (game.input["left"+pno])
 				dx -= 0.8;
-			if (game.input.right)
+			if (game.input["right"+pno])
 				dx += 0.8;
-			if (game.input.up)
+			if (game.input["up"+pno])
 				dy -= 0.8;
-			if (game.input.down)
+			if (game.input["down"+pno])
 				dy += 0.8;
 
 
@@ -87,7 +102,12 @@ Player = Class.create(Sprite, {
 			dx *= 0.7;
 			dy *= 0.7;
 
-			if (Math.abs(dx) > Math.abs(dy) && dx > 0.3 )
+			if (frames == animationExplosion) {
+				if (frameIndex > animationExplosion.length)
+					game.stop();
+			} else if (game.input["shoot"+pno])
+				frames = animationShoot;
+			else if (Math.abs(dx) > Math.abs(dy) && dx > 0.3 )
 				frames = animationRight;
 			else if ( dx < -0.3)
 				frames = animationLeft;
@@ -114,17 +134,48 @@ Player = Class.create(Sprite, {
 
 			moveIfNoHit();	
 
-			if (game.input.shoot) {
+			if (game.input["shoot"+pno]) {
+				var ux = dx,
+					uy = dy,
+					   y0 = that.y,
+					   x0 = that.x;
+				
 
-				var p = new Projectile(that.x+32,that.y+32, function (x, y, age) {
-					return {x: x+Math.sin(age/160)*100, y: y+Math.sin(y/160)*100};
-				});
+
+				var trajectories = [
+					function (x, y, age) {
+						return { 
+							x: x + sgn(ux) * 20,
+							y: y0 + Math.sin(x*10)*30
+						}
+					},
+
+					function (x, y) {
+						return {
+							x: x + Math.random()*5 - 2,
+							y: y + Math.random()*19 -10
+						}
+					}
+				]
+
+
+
+
+
+
+				var p = new Projectile(that.x+32,that.y+32, 
+						trajectories[Math.floor(Math.random() * trajectories.length)],
+						pno);
 
 				that.parentNode.addChild(p);
 			}
+
+			hp.x = that.x;
+			hp.y = that.y;
 			
 		});
-
+		addTo.addChild(that);
+		addTo.addChild(hp);
 	}
 
 

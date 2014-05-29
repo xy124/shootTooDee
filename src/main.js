@@ -9,10 +9,26 @@ window.onload = function () {
 	game.preload(
 		"assets/character.png", 
 		"assets/map0.png",
-		"assets/projectile.png"
+		"assets/projectile.png",
+		"assets/hp0.png",
+		"assets/hp1.png",
+		"assets/shot.ogg",
+		"assets/explosion.png"
+
 
 		
 	);
+
+	game.keybind(65, 'left1');	
+	game.keybind(68, 'right1');
+	game.keybind(87, 'up1');
+	game.keybind(83, 'down1');
+	game.keybind(37, 'left0');	
+	game.keybind(39, 'right0');
+	game.keybind(38, 'up0');
+	game.keybind(40, 'down0');
+	game.keybind(96, 'shoot0');
+	game.keybind(70, 'shoot1');
 
 	game.players = [];
 	game.onload = function () {
@@ -26,4 +42,13 @@ window.onload = function () {
 function debugOut(str) {
 	document.getElementById("debug").innerHTML = str;
 }
+
+function sgn(a) {
+	if ( a == 0)
+		return 0;
+	if ( a < 0)
+		return -1;
+	return 1;
+}
+			
 

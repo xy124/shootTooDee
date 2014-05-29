@@ -11,11 +11,12 @@ GameScene = Class.create(Scene, {
 		game.map.collisionData = colMap;
 		that.addChild(game.map);
 
-		var player = new Player();
+		var player0 = new Player(0, that);
+		var player1 = new Player(1, that);
 
-		player.moveTo(32 * 2, 32 * 2);
+		player1.moveTo(32 * 2, 32 * 2);
+		player0.moveTo(game.width - 100 -64, game.height - 100-64);
 
-		that.addChild(player);
 
 	}
 });
