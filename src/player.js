@@ -97,7 +97,7 @@ Player = Class.create(Sprite, {
 				frames = animationTop;
 			else frames = animationStand;
 
-		 	frameIndex+=0.6;
+		 	frameIndex += 0.6;
 			if ( Math.round(frameIndex) >= frames.length || oldFrames != frames ) {
 				frameIndex = 0;
 				oldFrames = frames;
@@ -115,7 +115,11 @@ Player = Class.create(Sprite, {
 			moveIfNoHit();	
 
 			if (game.input.shoot) {
-				var p = new Projectile(that.x+32+dx*40,that.y+32*+dy*40,dx*70,dy*70);
+
+				var p = new Projectile(that.x+32,that.y+32, function (x, y, age) {
+					return {x: x+Math.sin(age/160)*100, y: y+Math.sin(y/160)*100};
+				});
+
 				that.parentNode.addChild(p);
 			}
 			
