@@ -9,19 +9,30 @@ Player = Class.create(Sprite, {
 		Sprite.call(this, that.w, that.h);
 		that.image = game.assets["assets/character.png"];
 		
-		var moveSpeed = 12;
+		var moveSpeed = 4,
+       			dx = 0, dy = 0;
 
-		function moveIfNoHit(dx, dy) {
-			var x = that.x + dx * moveSpeed,
-       				y = that.y + dy * moveSpeed;
-			if (    game.map.hitTest(x, y) &&
+
+		function doHitTests(x, y) {
+			return  game.map.hitTest(x, y) &&
 				game.map.hitTest(x+64, y) &&
 				game.map.hitTest(x, y+64) &&
-				game.map.hitTest(x+64, y+64)) 
-			{	
+				game.map.hitTest(x+64, y+64); 
+
+		}
+
+		function moveIfNoHit() {
+			var x = Math.round(that.x + dx * moveSpeed),
+       				y = Math.round(that.y + dy * moveSpeed);
+			if (doHitTests(x, y))	{	
 
 				that.x = x;
 				that.y = y;
+			} else {
+				if (!doHitTests(x, that.y))//TODO
+					dx = 0;
+				else
+					dy = 0;
 			}
 
 		}
@@ -37,15 +48,23 @@ Player = Class.create(Sprite, {
 		this.addEventListener(Event.ENTER_FRAME, function(e) {
 			// try to move...
 			if (game.input.left)
-				moveIfNoHit(-1,0);
+				dx -= 0.8;
 			if (game.input.right)
-				moveIfNoHit(1,0);
+				dx += 0.8;
 			if (game.input.up)
-				moveIfNoHit(0,-1);
+				dy -= 0.8;
 			if (game.input.down)
-				moveIfNoHit(0,1);
+				dy += 0.8;
 
-			
+			dx *= 0.99;
+			dy *= 0.99;
+
+			if (dx > 1) dx = 1;
+			if (dx < -1) dx = -1;
+			if (dy > 1) dy = 1;
+			if (dy < -1) dy = -1;
+
+			moveIfNoHit();	
 			
 		});
 
