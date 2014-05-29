@@ -15,17 +15,30 @@ Player = Class.create(Sprite, {
 		that.width = 64;
 		that.height= 64;
 		Sprite.call(this, that.width, that.height);
-		console.log(that.width);
 		that.image = game.assets["assets/character.png"];		
+		game.players.push(that);
 		var moveSpeedX = 6, moveSpeedY=6,
        			dx = 0, dy = 0;
 
+		that.hit = function (which) {
+			console.log("you hit me!");
+		};
 
 		function doHitTests(x, y) {
-			return  game.map.hitTest(x, y) &&
-				game.map.hitTest(x+64, y) &&
-				game.map.hitTest(x, y+64) &&
-				game.map.hitTest(x+64, y+64); 
+			var tx, ty;
+			
+			for ( ty = y; ty <= y + 64; ty+=64)
+				for ( tx = x; tx <= x+64; tx += 1)
+					if(!game.map.hitTest(tx, ty))
+						return false;
+
+			for ( tx = x; tx <= x + 64; tx+=64)
+				for ( ty = y; ty <= y+64; ty += 1)
+					if(!game.map.hitTest(tx, ty))
+						return false;
+				
+				
+			return true;
 
 		}
 
@@ -54,7 +67,7 @@ Player = Class.create(Sprite, {
 		game.keybind(68, 'right');
 		game.keybind(87, 'up');
 		game.keybind(83, 'down');
-		
+		game.keybind(32, 'shoot');		
 		var frameIndex = 0, oldFrames, frames;
 
 		this.addEventListener(Event.ENTER_FRAME, function(e) {
@@ -100,6 +113,11 @@ Player = Class.create(Sprite, {
 			if (dy < -1) dy = -1;
 
 			moveIfNoHit();	
+
+			if (game.input.shoot) {
+				var p = new Projectile(that.x+32+dx*40,that.y+32*+dy*40,dx*70,dy*70);
+				that.parentNode.addChild(p);
+			}
 			
 		});
 

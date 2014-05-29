@@ -8,10 +8,13 @@ window.onload = function () {
 
 	game.preload(
 		"assets/character.png", 
-		"assets/map0.png"
+		"assets/map0.png",
+		"assets/projectile.png"
+
 		
 	);
 
+	game.players = [];
 	game.onload = function () {
 		// Anything written here is processed
 		game.pushScene(new GameScene());
