@@ -13,7 +13,9 @@ window.onload = function () {
 		"assets/hp0.png",
 		"assets/hp1.png",
 		"assets/shot.ogg",
-		"assets/explosion.png"
+		"assets/explosion.png",
+		"assets/lost.ogg",
+		"assets/mana.png"
 
 
 		
@@ -44,8 +46,6 @@ function debugOut(str) {
 }
 
 function sgn(a) {
-	if ( a == 0)
-		return 0;
 	if ( a < 0)
 		return -1;
 	return 1;
