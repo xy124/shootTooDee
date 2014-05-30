@@ -53,11 +53,11 @@ Player = Class.create(Sprite, {
 			var tx, ty;
 			
 			for ( ty = y; ty <= y + 64; ty+=64)
-				for ( tx = x; tx <= x+64; tx += 1)
+				for ( tx = x+16; tx <= x+48; tx += 1)
 					if(!game.map.hitTest(tx, ty))
 						return false;
 
-			for ( tx = x; tx <= x + 64; tx+=64)
+			for ( tx = x+16; tx <= x + 48; tx+=32)
 				for ( ty = y; ty <= y+64; ty += 1)
 					if(!game.map.hitTest(tx, ty))
 						return false;
