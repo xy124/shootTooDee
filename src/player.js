@@ -49,7 +49,7 @@ Player = Class.create(Sprite, {
 		    mana = MAXMANA,
 		    dMana = 2;
 
-		function doHitTests(x, y) {
+		this.doHitTests = function (x, y) {
 			var tx, ty;
 			
 			for ( ty = y; ty <= y + 64; ty+=64)
@@ -65,7 +65,7 @@ Player = Class.create(Sprite, {
 				
 			return true;
 
-		}
+		};
 
 
 		var hp = new Sprite (64, 8);
@@ -79,16 +79,15 @@ Player = Class.create(Sprite, {
 			var x = Math.round(that.x + dx * moveSpeedX),
        				y = Math.round(that.y + dy * moveSpeedY);
 
-				if (!doHitTests(x, that.y)) 
-					dx = 0;
-				else
+				if (that.doHitTests(x, that.y)) 
 					that.x = x;
-				
-				if (!doHitTests(that.x, y)) 
-					dy = 0;
 				else
+					dx = 0;
+				
+				if (that.doHitTests(that.x, y)) 
 					that.y = y;
-
+				else
+					dy = 0;
 
 
 			
