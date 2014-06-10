@@ -43,7 +43,7 @@ Player = Class.create(Sprite, {
 			hp.width = hitPoints / MAXHP * 64;
 		};
 		
-		var MAXHP = 100,
+		var MAXHP = 64,
        		    hitPoints  = MAXHP,
 		    MAXMANA = 100,
 		    mana = MAXMANA,
