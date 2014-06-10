@@ -1,0 +1,18 @@
+character.png : - LICENSE: GPL3.0, http://creativecommons.org/licenses/by-sa/3.0/
+Original Walkcycle, Hurt, Slash, and Spellcast animations by Stephen Challener (AKA Redshrike) and Shooting and Thrusting animations by Johannes Sjölund
+http://opengameart.org/sites/default/files/character%28brunettemustache%29_0.png
+http://opengameart.org/content/lpc-brunet-mustache
+
+explosion.png :
+http://xboxforums.create.msdn.com/forums/t/32476.aspx
+http://www.positech.co.uk/content/explosion/explosiongenerator.html
+
+map* :
+taken from enchantjs/examples/beginner/map
+
+shot.ogg :
+http://www.freesound.org/people/Shades/sounds/37236/
+by Shades
+
+
+all other graphics are self made using gimp and therefore licensed under MIT-license.
