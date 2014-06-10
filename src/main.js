@@ -15,6 +15,7 @@ window.onload = function () {
 		"assets/shot.ogg",
 		"assets/explosion.png",
 		"assets/lost.ogg",
+		"assets/wall.png",
 		"assets/mana.png"
 
 
